@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SoehneLesen_Result>
+@{
+    ViewBag.Title = "SoehneLaden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Soehne Laden</h2>
+
+<table id="tblSoehne" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.Label("Ausweis", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+            <th>
+                @Html.Label("Name", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+            <th>
+                @Html.Label("Personennamen", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sohn in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => sohn.AUSWEIS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => sohn.NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => sohn.PERSONNAME)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblSoehne').DataTable({
+                "paging": true,
+                "pageLength": 5,
+                "sort": (true, true, false)
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PersonenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AUSWEIS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AGE" Type="Int32" />
+    <Property Name="STARTDATUM" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Sohn" Relationship="Self.FK_ID_PERSON" FromRole="Person" ToRole="Sohn" />
+  </EntityType>
+  <EntityType Name="Sohn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AUSWEIS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FK_ID_PERSON" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_ID_PERSON" FromRole="Sohn" ToRole="Person" />
+    <NavigationProperty Name="Sohn1" Relationship="Self.FK_SOHN" FromRole="Sohn" ToRole="Sohn1" />
+    <NavigationProperty Name="Sohn2" Relationship="Self.FK_SOHN" FromRole="Sohn1" ToRole="Sohn" />
+  </EntityType>
+  <Association Name="FK_ID_PERSON">
+    <End Role="Person" Type="Self.Person" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sohn" Type="Self.Sohn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sohn">
+        <PropertyRef Name="FK_ID_PERSON" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOHN">
+    <End Role="Sohn" Type="Self.Sohn" Multiplicity="1" />
+    <End Role="Sohn1" Type="Self.Sohn" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Sohn">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sohn1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PersonenEntities9" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Person" EntityType="Self.Person" />
+    <EntitySet Name="Sohn" EntityType="Self.Sohn" />
+    <AssociationSet Name="FK_ID_PERSON" Association="Self.FK_ID_PERSON">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Sohn" EntitySet="Sohn" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOHN" Association="Self.FK_SOHN">
+      <End Role="Sohn" EntitySet="Sohn" />
+      <End Role="Sohn1" EntitySet="Sohn" />
+    </AssociationSet>
+    <FunctionImport Name="PERSONEN_LADEN" ReturnType="Collection(PersonenModel.PERSONEN_LADEN_Result)" />
+    <FunctionImport Name="SoehneLesen" ReturnType="Collection(PersonenModel.SoehneLesen_Result)" />
+    <FunctionImport Name="SohnEinfuegen">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+      <Parameter Name="Ausweis" Mode="In" Type="String" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="FK_Id" Mode="In" Type="Int64" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="PERSONEN_LADEN_Result">
+    <Property Type="Int64" Name="ID" Nullable="false" />
+    <Property Type="String" Name="AUSWEIS" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="NAME" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="AGE" Nullable="true" />
+    <Property Type="DateTime" Name="STARTDATUM" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SoehneLesen_Result">
+    <Property Type="Int64" Name="ID" Nullable="false" />
+    <Property Type="String" Name="AUSWEIS" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="NAME" Nullable="false" MaxLength="100" />
+    <Property Type="Int64" Name="FK_ID_PERSON" Nullable="false" />
+    <Property Type="String" Name="PERSONNAME" Nullable="true" MaxLength="50" />
+  </ComplexType>
+</Schema>

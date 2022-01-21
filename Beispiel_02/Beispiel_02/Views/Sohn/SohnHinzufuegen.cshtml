@@ -1,0 +1,61 @@
+﻿@model Sohn
+@{
+    ViewBag.Title = "SohnHinzufuegen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sohn Hinzufügen</h2>
+
+@using (Html.BeginForm("FormularLaden", "Sohn", FormMethod.Post))
+{
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.LabelFor(m => m.AUSWEIS, new { })
+                @Html.TextBoxFor(m => m.AUSWEIS, new { @class = "form-control", id = "sohnenAusweis" })
+                @Html.ValidationMessageFor(m => m.AUSWEIS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                <input type="button" class="btn btn-primary btn-block" value="LESEN" onclick="NamenLesen();">
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.LabelFor(m => m.NAME, new { })
+                @Html.TextBoxFor(m => m.NAME, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.Label("Personennamen")
+                <br />
+                @Html.DropDownListFor(m => m.FK_ID_PERSON, ViewBag.ID_Person_Combo as IEnumerable<SelectListItem>, new { @class = "form-control chosen" })
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Hinzufügen" />
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Bearbeiten" />
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Löschen" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    @Scripts.Render("/Funktionen/Sohn.js")
+    <script>
+        $(function () {
+            $(".chosen").chosen();
+
+        });
+    </script>    
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script> <!--Fuer ValidationMessage-->
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script> <!--Auch fuer ValidationMessage-->
+}
+

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Person>
+@{
+    ViewBag.Title = "PersonenLaden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Personen</h2>
+
+<table id="tblPersonen" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>AUSWEIS</th>
+            <th>NAME</th>
+            <th>ALTER</th>
+            <th>STARTDATUM</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.AUSWEIS</td>
+                <td>@person.NAME</td>
+                <td>@person.AGE</td>
+                <td>@person.STARTDATUM.Value.ToString("dd-MM-yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblPersonen').DataTable({
+                "paging": true,
+                "pageLength": 5,
+                "sort": (true, true, false)
+            });
+        });
+    </script>    
+}
+

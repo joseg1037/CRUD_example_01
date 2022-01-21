@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PersonenModelStoreContainer" CdmEntityContainer="PersonenEntities9">
+    <EntitySetMapping Name="Person">
+      <EntityTypeMapping TypeName="PersonenModel.Person">
+        <MappingFragment StoreEntitySet="Person">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AUSWEIS" ColumnName="AUSWEIS" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="AGE" ColumnName="AGE" />
+          <ScalarProperty Name="STARTDATUM" ColumnName="STARTDATUM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sohn">
+      <EntityTypeMapping TypeName="PersonenModel.Sohn">
+        <MappingFragment StoreEntitySet="Sohn">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AUSWEIS" ColumnName="AUSWEIS" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="FK_ID_PERSON" ColumnName="FK_ID_PERSON" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="PERSONEN_LADEN" FunctionName="PersonenModel.Store.PERSONEN_LADEN">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="PersonenModel.PERSONEN_LADEN_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AUSWEIS" ColumnName="AUSWEIS" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="AGE" ColumnName="AGE" />
+          <ScalarProperty Name="STARTDATUM" ColumnName="STARTDATUM" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SoehneLesen" FunctionName="PersonenModel.Store.SoehneLesen">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="PersonenModel.SoehneLesen_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AUSWEIS" ColumnName="AUSWEIS" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="FK_ID_PERSON" ColumnName="FK_ID_PERSON" />
+          <ScalarProperty Name="PERSONNAME" ColumnName="PERSONNAME" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SohnEinfuegen" FunctionName="PersonenModel.Store.SohnEinfuegen" />
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PersonenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AUSWEIS" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="NAME" Type="varchar" MaxLength="50" />
+    <Property Name="AGE" Type="int" />
+    <Property Name="STARTDATUM" Type="date" />
+  </EntityType>
+  <EntityType Name="Sohn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AUSWEIS" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="NAME" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FK_ID_PERSON" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ID_PERSON">
+    <End Role="Person" Type="Self.Person" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sohn" Type="Self.Sohn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sohn">
+        <PropertyRef Name="FK_ID_PERSON" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOHN">
+    <End Role="Sohn" Type="Self.Sohn" Multiplicity="1" />
+    <End Role="Sohn1" Type="Self.Sohn" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Sohn">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sohn1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="PERSONEN_LADEN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SoehneLesen" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SohnEinfuegen" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="bigint" Mode="In" />
+    <Parameter Name="Ausweis" Type="varchar" Mode="In" />
+    <Parameter Name="Name" Type="varchar" Mode="In" />
+    <Parameter Name="FK_Id" Type="bigint" Mode="In" />
+  </Function>
+  <EntityContainer Name="PersonenModelStoreContainer">
+    <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sohn" EntityType="Self.Sohn" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ID_PERSON" Association="Self.FK_ID_PERSON">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Sohn" EntitySet="Sohn" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOHN" Association="Self.FK_SOHN">
+      <End Role="Sohn" EntitySet="Sohn" />
+      <End Role="Sohn1" EntitySet="Sohn" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
